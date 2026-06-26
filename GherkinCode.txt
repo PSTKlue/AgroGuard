@@ -1,0 +1,107 @@
+# ==============================================================================
+# AGROGUARD - ESPECIFICACIONES BDD UNIFICADAS (GHERKIN FEATURE FILES)
+# HISTORIAS DE USUARIO: HU001 - HU026 (SIN DIVISIONES POR ÉPICAS)
+# ==============================================================================
+
+# language: es
+Característica: HU001 Visualizar mapa NDVI
+
+  Escenario: Navegación e interacción con el zoom en el mapa
+    Dado que el Ingeniero Agrónomo se encuentra en la pantalla del mapa NDVI
+    Cuando presiona los controles visuales de "+" o "-" en la esquina del mapa
+    Entonces la vista del mapa debe reajustar su escala de manera fluida y sin pixelarse, manteniendo la delimitación georreferenciada de las zonas del cultivo
+
+  Escenario: Selección de un lote sin datos de mapa NDVI generados
+    Dado que el Ingeniero Agrónomo se encuentra en el panel principal de cultivos
+    Cuando selecciona un lote recién registrado que aún no cuenta con misiones de vuelo procesadas
+    Entonces el sistema muestra un mapa base satelital estándar y despliega un mensaje indicando que no hay capas de salud disponibles para esa parcela
+
+---
+
+# language: es
+Característica: HU002 Detectar plagas automáticamente
+
+  Escenario: Mostrar resultado con ubicación y confianza
+    Dado que el Ingeniero Agrónomo toma y sube una foto de una planta afectada en campo
+    Cuando la Inteligencia Artificial termina de procesar la imagen
+    Entonces el sistema debe mostrar en pantalla las coordenadas geográficas exactas de la toma y el porcentaje de confianza del diagnóstico
+
+  Escenario: Carga de imagen con calidad insuficiente para el diagnóstico
+    Dado que el Ingeniero Agrónomo sube una fotografía del cultivo que se encuentra demasiado borrosa u oscura
+    Cuando el modelo de Inteligencia Artificial intenta analizar los patrones fitosanitarios
+    Entonces el sistema interrumpe el análisis, cambia el estado a "Requiere Nueva Captura" y muestra una sugerencia técnica para mejorar la toma
+
+---
+
+# language: es
+Característica: HU003 Recibir alertas
+
+  Escenario: Tiempo de entrega de la notificación crítica
+    Dado que se ha detectado una amenaza fitosanitaria severa en un lote
+    Cuando el sistema registra el incidente en la base de datos
+    Entonces la alerta push debe llegar al dispositivo del Jefe de Sanidad en un tiempo menor a 1 minuto
+
+  Escenario: Configuración de franja horaria para alertas no críticas
+    Dado que el Jefe de Sanidad ha configurado el modo "Resumen Nocturno" en sus ajustes
+    Cuando el sistema detecta una anomalía de nivel leve o puramente informativa fuera del horario laboral
+    Entonces retiene la notificación push y la consolida en el reporte programado para la mañana siguiente
+
+---
+
+# language: es
+Característica: HU004 Registrar datos offline
+
+  Escenario: Almacenamiento local en zona remota
+    Dado que el Operador de Campo está registrando observaciones en una zona remota sin señal de internet
+    Cuando hace clic en el botón de guardar
+    Entonces todos los datos de la observación deben almacenarse localmente en el almacenamiento interno del dispositivo para evitar la pérdida de información
+
+  Escenario: Intento de guardado offline con formulario incompleto
+    Dado que el Operador de Campo se encuentra sin conectividad en medio de la parcela
+    Cuando intenta presionar "Guardar Offline" omitiendo el campo obligatorio de la descripción de síntomas
+    Entonces la aplicación bloquea la acción, resalta el campo vacío en rojo y le permite guardar localmente solo tras completar la información mínima requerida
+
+---
+
+# language: es
+Característica: HU005 Sincronizar Información
+
+  Escenario: Sincronización sin pérdida de datos
+    Dado que el dispositivo del Operador de Campo tiene datos guardados localmente y recupera el acceso a una red de internet estable
+    Cuando se inicia el proceso de sincronización con el servidor
+    Entonces el sistema debe asegurar que el 100% de los datos se transfieran sin pérdidas y actualizar el estado local a "Sincronizado"
+
+  Escenario: Interrupción abrupta de la red durante la sincronización
+    Dado que el dispositivo inició la transferencia automática de la cola de reportes al servidor
+    Cuando la señal de internet se corta abruptamente a mitad del proceso debido a microcortes en la ruta
+    Entonces el sistema detiene la carga sin corromper los archivos, mantiene en caché los reportes no enviados y reanuda la transferencia exactamente desde el último bit exitoso al recuperar la red
+
+---
+
+# language: es
+Característica: HU006 Generar reportes
+
+  Escenario: Exportación a formato PDF
+    Dado que el Jefe de Sanidad se encuentra en el panel de evaluación sanitaria del cultivo
+    Cuando selecciona los parámetros deseados y presiona el botón "Exportar"
+    Entonces el sistema debe generar y descargar automáticamente un reporte consolidado en formato PDF
+
+  Escenario: Intento de generación de reporte sin seleccionar parámetros obligatorios
+    Dado que el Jefe de Sanidad abre el módulo de generación de reportes
+    Cuando presiona el botón "Exportar" dejando en blanco el rango de fechas obligatorio
+    Entonces el sistema bloquea la descarga del documento y muestra una alerta solicitando especificar el periodo de la campaña a evaluar
+
+---
+
+# language: es
+Característica: HU007 Carga y procesamiento de imágenes de drones
+
+  Escenario: Procesamiento exitoso de imágenes multiespectrales
+    Dado que el Operador de Drones ha finalizado una misión de vuelo y se encuentra en el panel de carga de archivos
+    Cuando selecciona un lote de imágenes y presiona el botón "Iniciar Procesamiento"
+    Entonces el sistema debe validar los metadatos de geolocalización de las fotos y mostrar en tiempo real una barra de progreso del renderizado del mapa NDVI
+
+  Escenario: Carga de archivos con formato o extensión corrupta
+    Dado que el Operador de Drones intenta subir un lote de archivos comprimidos dañado o en una extensión no válida (ej. .MP4)
+    Cuando presiona el botón de procesamiento en la plataforma web
+    Entonces el backend rechaza la carga inmediatamente, limpia la cola de archivos y muestra un listado de los formatos permitidos (GeoTIFF/JPG de
