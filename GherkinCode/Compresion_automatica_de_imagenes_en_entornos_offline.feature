@@ -1,12 +1,14 @@
 # language: es
 Característica: HU020 Compresión automática de imágenes en entornos offline
 
-  Escenario: Reducción drástica del peso de la imagen manteniendo nitidez
-    Dado que el técnico toma una fotografía de síntomas de plaga en alta resolución (ej. 8 MB)
-    Cuando presiona "Guardar Ficha Local"
-    Entonces la aplicación ejecuta un algoritmo interno de compresión que reduce el tamaño del archivo a menos de 500 KB (JPEG optimizado) manteniendo la nitidez necesaria para el análisis de la IA, reduciendo costos de transferencia
+  Escenario: Reducción del tamaño binario de la imagen manteniendo los detalles de nitidez requeridos por la IA
+    Dado que el Operador de Campo captura una fotografía de síntomas vegetales en alta resolución
+    Cuando confirma el guardado local del reporte en la aplicación móvil (Input: archivo_foto_cruda = "plaga_8MB.jpg")
+    Entonces el submódulo de compresión de la app ejecuta un remuestreo local del mapa de bits
+    Y almacena el archivo binario optimizado en la base de datos interna SQLite (Output: archivo_foto_cache = "plaga_compressed_450KB.jpg", bool_nitidez_validada = true)
 
-  Escenario: Captura con lente obstruido o calidad de imagen insuficiente
-    Dado que el técnico intenta registrar una evidencia fotográfica borrosa o con nula iluminación en campo
-    Cuando el algoritmo evalúa que la foto no posee los parámetros mínimos de enfoque para la IA
-    Entonces el sistema emite una advertencia visual recomendando repetir la captura antes de proceder con el guardado offline
+  Escenario: Captura de baja nitidez o enfoque insuficiente rechazada por el algoritmo local
+    Dado que el Operador de Campo intenta tomar una fotografía de evidencia fitosanitaria
+    Cuando el lente de la cámara se encuentra obstruido o desenfocado (Input: archivo_foto_cruda = "foto_borrosa_2MB.jpg")
+    Entonces el algoritmo local de control de calidad intercepta el flujo antes del almacenamiento en disco
+    Y bloquea el guardado del formulario emitiendo una advertencia técnica en pantalla (Output: string_error_captura = "Imagen desenfocada. Limpie el lente y repita la toma")
