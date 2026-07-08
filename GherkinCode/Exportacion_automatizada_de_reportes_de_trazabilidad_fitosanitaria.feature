@@ -1,12 +1,14 @@
 # language: es
 Característica: HU022 Exportación automatizada de reportes de trazabilidad fitosanitaria
 
-  Escenario: Compilación exitosa del reporte digital inmodificable para SENASA
-    Dado que el jefe de sanidad entra al módulo de reportes y selecciona los filtros de exportación fitosanitaria
-    Cuando presiona el botón "Generar Certificación Fitosanitaria"
-    Entonces el sistema genera un documento PDF formal, libre de modificaciones, que incluye el membrete de la empresa, firmas digitales de los agrónomos responsables y el sello de conformidad con bajo uso de químicos
+  Escenario: Compilación de reporte digital fitosanitario inmodificable para trámites de aduana o SENASA
+    Dado que el Jefe de Sanidad abre el panel corporativo de certificaciones fitosanitarias
+    Cuando selecciona los filtros correspondientes a la temporada y envía (Inputs: int_id_fundo = 20, string_campaña = "Campaña Verano 2026")
+    Entonces el backend compila los registros fitosanitarios incluyendo los metadatos de las firmas digitales de los agrónomos colegiados responsables
+    Y genera un documento binario inmodificable listo para trámites de aduana (Output: archivo_pdf = "Certificado_Trazabilidad_2026.pdf", bool_documento_firmado = true)
 
-  Escenario: Intento de generación de reporte sin firmas de agrónomos registradas
-    Dado que el jefe de sanidad solicita la exportación de trazabilidad fitosanitaria de la campaña
-    Cuando el lote seleccionado posee evaluaciones que no han sido firmadas digitalmente por un agrónomo colegiado
-    Entonces la plataforma detiene la compilación, muestra una alerta de error y provee un listado de los campos pendientes de firma
+  Escenario: Bloqueo de exportación por falta de firmas de agrónomos colegiados en las evaluaciones del periodo
+    Dado que el Jefe de Sanidad solicita la compilación de un reporte de trazabilidad para agroexportación
+    Cuando el lote seleccionado posee evaluaciones que no han sido validadas por un profesional colegiado (Inputs: int_id_fundo = 20, int_evaluaciones_pendientes_firma = 3)
+    Entonces la plataforma detiene de forma controlada la compilación del archivo PDF corporativo
+    Y emite una alerta detallando los registros que causaron la inconsistencia (Output: string_error_reporte = "Exportación denegada. Existen evaluaciones críticas sin firma digital")
