@@ -1,12 +1,14 @@
 # language: es
-Característica: HU005 Sincronizar Información
+Característica: HU002 Detectar plagas automáticamente
 
-  Escenario: Sincronización sin pérdida de datos
-    Dado que el dispositivo del Operador de Campo tiene datos guardados localmente y recupera el acceso a una red de internet estable
-    Cuando se inicia el proceso de sincronización con el servidor
-    Entonces el sistema debe asegurar que el 100% de los datos se transfieran sin pérdidas y actualizar el estado local a "Sincronizado"
+  Escenario: Mostrar resultado analítico con ubicación y porcentaje de certeza
+    Dado que el Ingeniero Agrónomo captura y sube una fotografía nítida de un cultivo afectado
+    Cuando la Inteligencia Artificial ejecuta el procesamiento morfológico (Input: archivo_imagen = "evidencia_hoja.jpg")
+    Entonces el sistema registra las coordenadas espaciales exactas del hallazgo (Output: string_coordenadas = "-12.0431, -77.0282")
+    Y despliega la tarjeta analítica con el nivel de precisión (Output: string_plaga = "Gusano Cogollero", float_confianza = 0.94)
 
-  Escenario: Interrupción abrupta de la red durante la sincronización
-    Dado que el dispositivo inició la transferencia automática de la cola de reportes al servidor
-    Cuando la señal de internet se corta abruptamente a mitad del proceso debido a microcortes en la ruta
-    Entonces el sistema detiene la carga sin corromper los archivos, mantiene en caché los reportes no enviados y reanuda la transferencia exactamente desde el último bit exitoso al recuperar la red
+  Escenario: Carga de evidencia fotográfica con calidad o iluminación insuficiente
+    Dado que el Ingeniero Agrónomo se encuentra en una zona de baja luz solar
+    Cuando intenta subir una fotografía borrosa al motor de análisis (Input: archivo_imagen = "evidencia_oscura.png")
+    Entonces el modelo de Inteligencia Artificial interrumpe la ejecución del análisis fitosanitarias
+    Y actualiza el estado visual del reporte en la interfaz móvil (Output: string_estado = "Requiere Nueva Captura")
