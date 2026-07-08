@@ -31,10 +31,15 @@ El proyecto ha sido conceptualizado bajo el enfoque de **Lean UX** y estructurad
 Este proyecto es desarrollado por el equipo de **AgroGuard Technologies** (Ciclo 2026-01):
 
 **Barazorda Loayza, Gabriela Sofia** *(Código: U20251G959)* - Ingeniería de Sistemas de Información 
+
 **Ceron Diaz, Santiago** *(Código: U202514848)* - Ingeniería de Software
-**Cori Cadillo, Eliseo Magiver** *(Código: U202516374)* - Ingeniería de Sistemas de Información 
+
+**Cori Cadillo, Eliseo Magiver** *(Código: U202516374)* - Ingeniería de Sistemas de Información
+
 **Gutierrez Gonzales, Andersson Josue** *(Código: U20251F332)* - Ingeniería de Sistemas de Información
+
 **Herrera Chavez, Manuel Elias** *(Código: U202510330)* - Ingeniería de Software 
+
 **Muñoz Hidalgo, Yensy Irene** *(Código: U20251G560)* - Ingeniería de Sistemas de Información
 
 ---
