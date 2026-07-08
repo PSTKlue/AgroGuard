@@ -1,12 +1,14 @@
 # language: es
 Característica: HU011 Registro y delimitación de nuevas parcelas mediante polígonos GPS
 
-  Escenario: Cálculo automático de hectáreas mediante marcado de puntos
-    Dado que el Ingeniero Agrónomo utiliza la herramienta de mapeo y delimitación de fundos
-    Cuando marca los puntos cardinales sobre el mapa y cierra el polígono
-    Entonces el sistema debe calcular automáticamente la extensión en hectáreas y asignar un identificador único al nuevo lote en el sistema
+  Escenario: Cálculo geométrico automático de hectáreas mediante puntos georreferenciados
+    Dado que el Ingeniero Agrónomo interactúa con la interfaz cartográfica de AgroGuard
+    Cuando traza los puntos vectoriales perimetrales y cierra la figura geométrica (Input: array_coordenadas_gps = [p1, p2, p3, p4])
+    Entonces el backend calcula de forma matemática el área superficial encerrada en el polígono
+    Y registra el nuevo lote mapeado en el sistema (Output: float_hectareas_calculadas = 12.5, int_id_lote_nuevo = 501)
 
-  Escenario: Delimitación de polígonos que se superponen con terrenos existentes
-    Dado que el Ingeniero Agrónomo está dibujando los límites de una nueva parcela en el mapa satelital
-    Cuando cierra un polígono cuyos bordes invaden o se superponen con un lote previamente registrado en el sistema
-    Entonces la aplicación emite una alerta de conflicto geográfico, resalta la zona de colisión en color naranja y solicita ajustar los puntos antes de guardar el registro
+  Escenario: Delimitación de polígonos geográficos que se superponen con parcelas existentes
+    Dado que el Ingeniero Agrónomo está dibujando los linderos de una nueva parcela sobre el plano satelital
+    Cuando cierra un polígono cuyos vectores interceptan un terreno previamente registrado (Input: array_coordenadas_gps = [coordenadas_colision])
+    Entonces el algoritmo de validación topográfica del sistema rechaza la solicitud de guardado por conflicto de propiedad
+    Y resalta el área geométrica de colisión en color naranja brillante en la pantalla (Output: string_status_mapa = "Superposición Detectada")
