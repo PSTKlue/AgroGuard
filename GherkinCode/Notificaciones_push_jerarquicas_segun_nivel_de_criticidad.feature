@@ -1,12 +1,14 @@
 # language: es
 Característica: HU013 Notificaciones push jerárquicas según nivel de criticidad
 
-  Escenario: Tiempo de entrega de la notificación crítica
-    Dado que la IA procesa una anomalía crítica de "Gusano Cogollero" en un lote
-    Cuando el servidor despacha la notificación a los celulares vinculados
-    Entonces el dispositivo móvil emite una alerta persistente con un ícono rojo de "Alerta Máxima" que destaca sobre las alertas amarillas de "Riesgo Moderado"
+  Escenario: Recepción de alerta push de máxima prioridad con UI diferenciada
+    Dado que la IA procesa una anomalía de alta severidad en el servidor
+    Cuando el sistema despacha el payload hacia los dispositivos móviles vinculados (Input: JSON_alerta = [severidad: "Alta", plaga: "Gusano Cogollero"])
+    Entonces la aplicación móvil activa de forma prioritaria el canal de notificaciones de emergencia del sistema operativo
+    Y muestra una tarjeta flotante roja con sonido de advertencia persistente (Output: ui_notificacion_estilo = "Alerta Máxima")
 
-  Escenario: Recepción de un reporte meramente informativo
-    Dado que el sistema procesa un reporte regular de "Análisis completado" sin anomalías fitosanitarias
-    Cuando se despacha la alerta al celular del usuario
-    Entonces el dispositivo móvil muestra una notificación silenciosa en color verde sin activar alarmas sonoras de emergencia
+  Escenario: Recepción de una notificación informativa de baja prioridad
+    Dado que el backend procesa un evento rutinario de mantenimiento del sistema sin riesgos fitosanitarios
+    Cuando se distribuye el mensaje informativo general a la red de usuarios (Input: JSON_alerta = [severidad: "Baja", mensaje: "Sincronización Completada"])
+    Entonces los teléfonos móviles reciben la alerta en segundo plano de manera silenciosa
+    Y añaden un ícono verde estándar en la barra superior sin interrumpir la pantalla (Output: ui_notificacion_estilo = "Silenciosa")
