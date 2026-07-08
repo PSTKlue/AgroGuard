@@ -1,12 +1,14 @@
 # language: es
 Característica: HU007 Carga y procesamiento de imágenes de drones
 
-  Escenario: Procesamiento exitoso de imágenes multiespectrales
-    Dado que el Operador de Drones ha finalizado una misión y se encuentra en el panel de carga de archivos
-    Cuando selecciona un lote de imágenes en forma y presiona el botón "Iniciar Procesamiento"
-    Entonces el sistema debe validar los metadatos de geolocalización de las fotos y mostrar en tiempo real una barra de progreso del renderizado del mapa NDVI
+  Escenario: Procesamiento exitoso de imágenes multiespectrales para renderizado
+    Dado que el Operador de Drones ingresa al panel de carga de la plataforma web
+    Cuando selecciona un paquete de imágenes válidas y confirma (Input: array_imagenes_tiff, string_lote = "San_Pedro")
+    Entonces el backend valida los metadatos georreferenciados de los archivos GeoTIFF
+    Y activa la barra de progreso de renderizado de la interfaz (Output: float_progreso_procesamiento = 100.0)
 
-  Escenario: Carga de archivos con formato o extensión corrupta
-    Dado que el Operador de Drones intenta subir un lote de archivos comprimidos dañado o en una extensión no válida (ej. .MP4)
-    Cuando presiona el botón de procesamiento en la plataforma web
-    Entonces el backend rechaza la carga inmediatamente, limpia la cola de archivos y muestra un listado de los formatos permitidos (GeoTIFF/JPG de alta resolución)
+  Escenario: Carga de archivos con extensiones inválidas o corruptas
+    Dado que el Operador de Drones intenta subir un archivo multimedia no apto para mapas NDVI
+    Cuando confirma la carga del archivo incorrecto (Input: archivo_invalido = "video_vuelo.mp4")
+    Entonces el backend de AgroGuard rechaza la inserción en el búfer de procesamiento
+    Y emite un mensaje de restricción textual en pantalla (Output: string_error = "Formato no compatible. Suba archivos GeoTIFF o JPG")
