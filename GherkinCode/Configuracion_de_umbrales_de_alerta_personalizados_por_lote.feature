@@ -1,12 +1,14 @@
 # language: es
 Característica: HU012 Configuración de umbrales de alerta personalizados por lote
 
-  Escenario: Guardado de restricción de alertas por estrés hídrico
-    Dado que el Jefe de Sanidad Vegetal edita las reglas de notificación específicas para el "Lote Sur"[cite: 1]
-    Cuando define que un índice NDVI en categoría de "Riesgo" superior al 15% del área debe alertar[cite: 1]
-    Entonces el sistema debe guardar la restricción y omitir el disparo de alertas push ordinarias si el daño se encuentra por debajo de dicho límite
+  Escenario: Guardado exitoso de límites restrictivos de estrés hídrico para un cultivo
+    Dado que el Jefe de Sanidad Vegetal abre el panel de edición de umbrales del "Lote Sur"
+    Cuando define el porcentaje de tolerancia máximo permitido antes de una alerta (Input: int_umbral_tolerancia = 15)
+    Entonces la base de datos almacena el valor entero vinculándolo estrictamente al identificador de la parcela
+    Y actualiza las reglas del motor de notificaciones en tiempo real (Output: bool_regla_guardada = true)
 
-  Escenario: Configuración de un umbral ilógico o contradictorio
-    Dado que el Jefe de Sanidad edita los límites de tolerancia de alertas en un lote de cultivo[cite: 1]
-    Cuando ingresa que el umbral de alerta "Crítica" sea menor cuantitativamente que el umbral de alerta de "Advertencia"
-    Entonces el sistema bloquea el guardado del formulario, describe la inconsistencia de los datos numéricos y le solicita corregir la jerarquía de los valores de riesgo
+  Escenario: Configuración errónea de jerarquías numéricas en los límites de riesgo
+    Dado que el Jefe de Sanidad edita los límites numéricos de riesgo fitosanitario en el formulario web
+    Cuando ingresa que el valor crítico de alarma sea numéricamente inferior al de advertencia básica (Inputs: int_umbral_critico = 10, int_umbral_advertencia = 30)
+    Entonces el sistema bloquea el envío de datos e interrumpe el guardado del formulario
+    Y despliega un mensaje aclaratorio en la UI (Output: string_error_jerarquia = "El umbral crítico debe ser mayor que el de advertencia")
